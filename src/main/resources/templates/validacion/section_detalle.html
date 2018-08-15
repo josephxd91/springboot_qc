@@ -1,0 +1,23 @@
+
+<div th:each="detalle : ${detalleValidacion}">
+
+	<div class="card">
+		<div class="card-header">
+			<h6 class="card-title" th:text="${detalle.idvalidacion.revision}"></h6>
+			<button class="btn btn-success"
+				th:onclick="'fnLoadSection(\'' + ${detalle.idvalidacion.idrevisionValidacion} + '\');'">Ver</button>
+		</div>
+		<div class="card-body">
+			<blockquote class="blockquote mb-0">
+				<pre></pre>
+				<p th:text="${detalle.idvalidacion.descripcion}"></p>
+				</pre>
+				<footer class="blockquote-footer">
+					Ultima modificacion por <cite title="Source Title"
+						th:text="${detalle.idusuario.nombres}"></cite>
+				</footer>
+			</blockquote>
+		</div>
+	</div>
+	<br>
+</div>

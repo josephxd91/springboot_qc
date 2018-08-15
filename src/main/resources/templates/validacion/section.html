@@ -1,0 +1,198 @@
+<div class="card">
+	<div class="card-header">
+		<nav aria-label="breadcrumb">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="#"
+					th:text="${subElemento.idelemento.nombre}">Home</a></li>
+				<li class="breadcrumb-item active" aria-current="page"
+					th:text="${subElemento.nombre}">>Library</li>
+			</ol>
+		</nav>
+	</div>
+	<div class="card-body">
+		<h5 class="card-title">Special title treatment</h5>
+		<p class="card-text">With supporting text below as a natural
+			lead-in to additional content.</p>
+		<!-- Large modal -->
+		<button type="button" class="btn btn-primary" data-toggle="modal"
+			data-target=".bd-example-modal-lg">Add</button>
+		<br /> <br />
+		<div id="content-info">
+			<div th:each="detalle : ${detalleValidacion}">
+
+				<div class="card">
+					<div class="card-header">
+						<h6 class="card-title" th:text="${detalle.idvalidacion.revision}"></h6>
+						<button class="btn btn-success"
+							th:onclick="'fnLoadSection(\'' + ${detalle.idvalidacion.idrevisionValidacion} + '\');'">Ver</button>
+					</div>
+					<div class="card-body">
+						<blockquote class="blockquote mb-0">
+							<pre></pre>
+							<p th:text="${detalle.idvalidacion.descripcion}"></p>
+							</pre>
+							<footer class="blockquote-footer">
+								Ultima modificacion por <cite title="Source Title"
+									th:text="${detalle.idusuario.nombres}"></cite>
+							</footer>
+						</blockquote>
+					</div>
+				</div>
+				<br>
+			</div>
+		</div>
+
+
+
+
+
+	</div>
+</div>
+
+
+<div class="modal fade bd-example-modal-lg" tabindex="-1" id="myModal"
+	role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLongTitle">
+
+					<!-- algun titulo -->
+
+				</h5>
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+
+
+				<div class="card">
+					<h5 class="card-header">
+
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item"><a href="#"
+								th:text="${subElemento.idelemento.nombre}">Home</a></li>
+							<li class="breadcrumb-item active" aria-current="page"
+								th:text="${subElemento.nombre}">>Library</li>
+						</ol>
+
+
+					</h5>
+
+
+					<div class="card-body">
+						<h5 class="card-title">Special title treatment</h5>
+						<p class="card-text">With supporting text below as a natural
+							lead-in to additional content.</p>
+						<form method="post"  enctype="multipart/form-data" >
+
+
+
+
+							<input type="hidden" id="txtrevisionid" th:attr="value='0'"
+								name="idrevisionValidacion" /> <input type="hidden"
+								id="txtidsubelemento"
+								th:attr="value=${subElemento.idsubelemento}"
+								name="idsubelemento.idsubelemento" />
+
+
+
+							<div class="form-group">
+								<label for="exampleFormControlInput1">Revision</label> <input
+									type="text" class="form-control" id="txtrevision"
+									name="revision" placeholder="name@example.com">
+							</div>
+							<div class="form-group">
+								<label for="exampleFormControlTextarea1">Detalle</label>
+								<!-- 								<textarea class="form-control" id="txtdetalle" name="detalle" -->
+								<!-- 									rows="3"></textarea> -->
+
+								<textarea class="form-control" id="txtdetalle" name="editordata"></textarea>
+							</div>
+
+							<div class="form-group">
+								<label for="exampleFormControlTextarea1">Ayuda</label>
+								<!-- 								<textarea class="form-control" id="txtayuda" rows="3" -->
+								<!-- 									name="ayuda"></textarea> -->
+								<textarea class="form-control" id="txtayuda" name="editordata"></textarea>
+
+								<!-- 																 <div id="summernote"></div> -->
+							</div>
+						</form>
+
+
+					</div>
+				</div>
+
+
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+				<button type="button" class="btn btn-primary"
+					onclick="fnAplicarCambios();">Aplicar cambios</button>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	$(document).ready(
+			function() {
+				console.log("hola mundo");
+				$('#txtdetalle').summernote(
+						{
+							tabsize : 2,
+							height : 300,
+							lang : 'es-ES',
+							toolbar : [
+									// [groupName, [list of button]]
+									[
+											'style',
+											[ 'bold', 'italic', 'underline',
+													'clear' ] ],
+									[
+											'font',
+											[ 'strikethrough', 'superscript',
+													'subscript' ] ],
+									[ 'fontsize', [ 'fontsize' ] ],
+									[ 'color', [ 'color' ] ],
+									[ 'para', [ 'ul', 'ol', 'paragraph' ] ],
+									[ 'height', [ 'height' ] ] ]
+						});
+
+				$('#txtayuda').summernote({
+					tabsize : 2,
+					height : 600,
+					lang : 'es-ES',
+					callbacks : {
+						onImageUpload : function(files, editor, welEditable) {
+							for (var i = files.length - 1; i >= 0; i--) {
+								sendFile(files[i], this);
+							}
+						}
+					}
+				});
+
+				sendFile = function(file, el) {
+					var form_data = new FormData();
+					form_data.append('file', file);
+					console.log(form_data);
+
+					$.ajax({
+						data : form_data,
+						type : "post",
+						url : '/contents/image_uploads',
+						cache : false,
+						contentType : false,
+						processData : false,
+						success : function() {
+// 							$(el).summernote('editor.insertImage', url);
+						}
+					});
+
+				};
+
+			});
+</script>

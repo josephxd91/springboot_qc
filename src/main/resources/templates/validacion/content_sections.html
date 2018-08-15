@@ -1,0 +1,77 @@
+<head th:insert="layout/layoutx :: head" />
+
+<th:block th:replace="layout/layoutx :: content01" />
+
+<div class="row">
+	<!-- <div class="col-md-2">
+	</div> -->
+	<div class="container-fluid">
+
+		<div class="card">
+			<h5 class="card-header">Featured</h5>
+			<div class="card-body">
+
+				<div class="row">
+
+
+					<div class="col-md-2">
+						<div class="card">
+							<div class="card-header">
+								Herramientas y Formatos
+							</div>
+							<div class="card-body">
+								<ol class="dd-list">
+									<li th:each="elemento :${elementos}" class="dd-item dd3-item" 
+									th:attr="data-id=${elemento.idelemento}">
+										<div class="dd-handle dd3-handle"></div>
+										<div class="dd3-content">
+											<label 
+											th:if="${not #lists.isEmpty(elemento.subElementoList)}" 
+											th:text="${elemento.nombre}"> </label>
+											<a th:onclick="'fviewSetting(0,\'h' + ${elemento.idelemento} + '\');'" 
+											th:if="${#lists.isEmpty(elemento.subElementoList)}"
+											    th:text="${elemento.nombre}"> </a>
+										</div>
+										<ol class="dd-list" th:if="${not #lists.isEmpty(elemento.subElementoList)}">
+											<li class="dd-item dd3-item" th:each="sub_elemento : ${elemento.subElementoList}" 
+											th:attr="data-id=${sub_elemento.idsubelemento}">
+												<div class="dd-handle dd3-handle"></div>
+												<div class="dd3-content">
+													<a th:onclick="'fviewSetting(1,\'e' + ${sub_elemento.idsubelemento} + '\');'" 
+													th:text="${sub_elemento.nombre}"></a>
+												</div> 
+											</li>
+										</ol>
+									</li>
+								</ol>	
+							</div>
+						</div>
+
+
+
+					</div>
+
+					<div class="col-md-10">
+							<div id="sections_content">
+								
+
+							</div>
+					</div>
+				</div>
+
+
+				<!-- <h5 class="card-title">Special title treatment</h5> -->
+				<!-- <p class="card-text">With supporting text below as a natural lead-in to additional content.</p> -->
+				<!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+			</div>
+		</div>
+
+
+	</div>
+	<!-- <div class="col-md-2">
+	</div> -->
+</div>
+
+
+<!-- End Container fluid  -->
+<th:block th:replace="layout/layoutx :: content02" />
