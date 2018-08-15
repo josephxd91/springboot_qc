@@ -24,7 +24,6 @@ public class ElementoServiceImpl implements IElementoService{
 
 	@Override
 	public void save(Elemento temaElemento) {
-		// TODO Auto-generated method stub
 		temaHerramientaDao.save(temaElemento);
 	}
 
@@ -35,7 +34,6 @@ public class ElementoServiceImpl implements IElementoService{
 
 	@Override
 	public List<Elemento> findByTemaHerramienta(String term) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
